@@ -1,4 +1,4 @@
-https://github.com/ABI-Software/mapclientplugins.dataembedderstep v0.1.0
+https://github.com/ABI-Software/mapclientplugins.dataembedderstep v0.1.1
 https://github.com/ABI-Software/mapclientplugins.meshgeneratorstep v0.2.0
 https://github.com/ABI-Software/mapclientplugins.geometricfitstep v0.1.1
 https://github.com/ABI-Software/mapclientplugins.mbfxml2exconverterstep v0.1.1
