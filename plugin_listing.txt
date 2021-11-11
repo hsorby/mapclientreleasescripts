@@ -11,5 +11,5 @@ https://github.com/mapclient-plugins/mapclientplugins.muxerstep v0.1.0
 https://github.com/mapclient-plugins/multiplefilechooser v0.1.1
 https://github.com/mapclient-plugins/mapclientplugins.mapclientprovenancerecordstep v0.1.0
 https://github.com/mapclient-plugins/mapclientplugins.dictserializerstep v0.1.2
-https://github.com/mapclient-plugins/mapclientplugins.filechooserstep v0.1.1
+https://github.com/mapclient-plugins/mapclientplugins.filechooserstep v0.1.2
 https://github.com/mapclient-plugins/mapclientplugins.directorychooserstep v0.1.2
