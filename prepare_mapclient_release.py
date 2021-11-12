@@ -48,6 +48,8 @@ def main():
     print('=======================')
     print(sys.executable)
     subprocess.run(['pip.exe', 'list'])
+    print(working_env)
+    print([sys.executable, "create_application.py", variant])
     result = subprocess.run([sys.executable, "create_application.py", variant], env=working_env)
     print(' == result application creation:', result.returncode)
     os.chdir(current_directory)
