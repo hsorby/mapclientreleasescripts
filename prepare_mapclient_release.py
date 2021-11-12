@@ -20,6 +20,10 @@ def main():
     result = subprocess.run(["pip", "install", "-U", 'pip'])
     print(' == result install:', result.returncode)
 
+    # Always install opencmiss.zinc, numpy, and scipy
+    result = subprocess.run(["pip", "install", "opencmiss.zinc", "numpy", "scipy"])
+    print(' == result install:', result.returncode)
+
     mapclient_url = "https://github.com/MusculoskeletalAtlasProject/mapclient"
     result = subprocess.run(["git", "-c", "advice.detachedHead=false", "clone", "--depth", "1", mapclient_url, "-b", args.mapclient_release])
     print(' == result git:', result.returncode)
