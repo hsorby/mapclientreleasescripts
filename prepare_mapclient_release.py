@@ -45,6 +45,8 @@ def main():
 
     current_directory = os.getcwd()
     os.chdir("mapclient/res/pyinstaller/")
+    print('=======================')
+    print(sys.executable)
     result = subprocess.run([sys.executable, "create_application.py", variant], env=working_env)
     print(' == result application creation:', result.returncode)
     os.chdir(current_directory)
