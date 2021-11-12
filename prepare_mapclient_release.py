@@ -12,7 +12,7 @@ def main():
     parser.add_argument("mapclient_release", help="tag from mapclient codebase")
     parser.add_argument('-p', '--plugins', help='input plugins list file')
     parser.add_argument('-w', '--workflows', help='input workflows list file')
-    parser.add_argument('-v', '--variant', nargs=1, help='variant label for this build')
+    parser.add_argument('-v', '--variant', help='variant label for this build')
     args = parser.parse_args()
 
     variant = args.variant if args.variant is not None else ''
