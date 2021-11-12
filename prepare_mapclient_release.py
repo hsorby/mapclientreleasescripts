@@ -47,6 +47,7 @@ def main():
     os.chdir("mapclient/res/pyinstaller/")
     print('=======================')
     print(sys.executable)
+    subprocess.run(['pip.exe', 'list'])
     result = subprocess.run([sys.executable, "create_application.py", variant], env=working_env)
     print(' == result application creation:', result.returncode)
     os.chdir(current_directory)
@@ -58,7 +59,7 @@ def main():
         os.chdir(current_directory)
     elif platform.system() == "Darwin":
         os.chdir("mapclient/res/macos")
-        result = subprocess.run(["/bin/bash", "create_installer.sh", args.mapclient_release, variant], env=working_env)
+        result = subprocess.run(["/bin/bash", "create_installer.sh", args.mapclient_release, f"-{variant}"], env=working_env)
         print(' == result create installer:', result.returncode)
         os.chdir(current_directory)
 
