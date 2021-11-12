@@ -32,13 +32,13 @@ def main():
     print(' == result install:', result.returncode)
 
     if args.plugins is not None:
-        result = subprocess.run([sys.executable, "prepare_mapclient_plugins.py", args.plugins])
+        result = subprocess.run([sys.executable, "prepare_mapclient_plugins.py", args.plugins[0]])
         print(' == result plugins preparation:', result.returncode)
 
     working_env = os.environ.copy()
 
     if args.workflows is not None:
-        result = subprocess.run([sys.executable, "prepare_mapclient_workflows.py", args.workflows])
+        result = subprocess.run([sys.executable, "prepare_mapclient_workflows.py", args.workflows[0]])
         print(' == result workflow preparation:', result.returncode)
 
         working_env["INTERNAL_WORKFLOWS_ZIP"] = os.path.abspath('internal_workflows.zip')
