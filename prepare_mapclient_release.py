@@ -10,8 +10,8 @@ import sys
 def main():
     parser = argparse.ArgumentParser(prog="release_preparation")
     parser.add_argument("mapclient_release", help="tag from mapclient codebase")
-    parser.add_argument('-p', '--plugins', nargs=1, type=argparse.FileType('r'), help='input plugins list file')
-    parser.add_argument('-w', '--workflows', nargs=1, type=argparse.FileType('r'), help='input workflows list file')
+    parser.add_argument('-p', '--plugins', help='input plugins list file')
+    parser.add_argument('-w', '--workflows', help='input workflows list file')
     parser.add_argument('-v', '--variant', nargs=1, help='variant label for this build')
     args = parser.parse_args()
 
@@ -31,14 +31,14 @@ def main():
     result = subprocess.run(["pip", "install", "-e", 'mapclient/src'])
     print(' == result install:', result.returncode)
 
-    if args.plugins is not None:
-        result = subprocess.run([sys.executable, "prepare_mapclient_plugins.py", args.plugins[0]])
+    if args.plugins is not None and os.path.isfile(args.plugins):
+        result = subprocess.run([sys.executable, "prepare_mapclient_plugins.py", args.plugins])
         print(' == result plugins preparation:', result.returncode)
 
     working_env = os.environ.copy()
 
-    if args.workflows is not None:
-        result = subprocess.run([sys.executable, "prepare_mapclient_workflows.py", args.workflows[0]])
+    if args.workflows is not None and os.path.isfile(args.workflows):
+        result = subprocess.run([sys.executable, "prepare_mapclient_workflows.py", args.workflows])
         print(' == result workflow preparation:', result.returncode)
 
         working_env["INTERNAL_WORKFLOWS_ZIP"] = os.path.abspath('internal_workflows.zip')
