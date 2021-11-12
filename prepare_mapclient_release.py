@@ -22,7 +22,7 @@ def main():
 
     # Always install opencmiss.zinc, numpy, and scipy
     result = subprocess.run(["pip", "install", "opencmiss.zinc", "numpy", "scipy"])
-    print(' == result install:', result.returncode)
+    print(' == result install extras:', result.returncode)
 
     mapclient_url = "https://github.com/MusculoskeletalAtlasProject/mapclient"
     result = subprocess.run(["git", "-c", "advice.detachedHead=false", "clone", "--depth", "1", mapclient_url, "-b", args.mapclient_release])
@@ -52,12 +52,12 @@ def main():
     if platform.system() == "Windows":
         os.chdir("mapclient/res/win")
         result = subprocess.run([sys.executable, "create_installer.py", args.mapclient_release, variant], env=working_env)
-        print(' == result application creation:', result.returncode)
+        print(' == result create installer:', result.returncode)
         os.chdir(current_directory)
     elif platform.system() == "Darwin":
         os.chdir("mapclient/res/macos")
         result = subprocess.run(["/bin/bash", "create_installer.sh", args.mapclient_release, variant], env=working_env)
-        print(' == result application creation:', result.returncode)
+        print(' == result create installer:', result.returncode)
         os.chdir(current_directory)
 
 
