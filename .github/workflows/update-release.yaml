@@ -55,6 +55,7 @@ jobs:
           else
             echo "::set-output name=RUN-INSTALLER::true"
           fi
+          echo "{\"include\":[$content]}"
           echo "::set-output name=MATRIX::{\"include\":[$content]}"
   build_asset:
     needs: setup
