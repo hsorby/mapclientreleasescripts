@@ -74,9 +74,10 @@ jobs:
           cd scripts
           # ${{ steps.get_tag.outputs.tag }}
           python prepare_mapclient_release.py main
-          asset=`mapclient/res/macos/*.dmg`
-          ls mapclient/res/macos/*.dmg
-          echo $asset
+          #ls -lh mapclient/res/macos
+          #asset=`mapclient/res/macos/*.dmg`
+          #ls mapclient/res/macos/*.dmg
+          #echo $asset
           echo "Upload it ..."
       - name: Create mapping tools assets
         shell: bash
