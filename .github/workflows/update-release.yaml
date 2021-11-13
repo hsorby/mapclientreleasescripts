@@ -14,7 +14,8 @@ jobs:
         run: |
           echo "Setting tag as: ${GITHUB_REF#refs/tags/}"
           echo "${{ github.event.release.assets_url }}"
-          echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
+#          echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
+          echo ::set-output name=TAG::main
       - name: Determine required assets
         id: req-assets
         shell: cmake -P {0}
