@@ -63,9 +63,11 @@ jobs:
           python -m venv venv
           ls venv/
           if [ "$RUNNER_OS" == "macOS" ]; then
-            source venv/bin/activate
+            python_exe=$GITHUB_WORKSPACE/venv/bin/python
+            # source venv/bin/activate
           elif [ "$RUNNER_OS" == "Windows" ]; then
-            source venv/Scripts/activate
+            python_exe=$GITHUB_WORKSPACE/venv/Scripts/python.exe
+            # source venv/Scripts/activate
           else
             echo "$RUNNER_OS not supported"
             exit 1
@@ -74,13 +76,17 @@ jobs:
           cd scripts
           # ${{ steps.get_tag.outputs.tag }}
           python prepare_mapclient_release.py main
-          #ls -lh mapclient/res/macos
-          #asset=`mapclient/res/macos/*.dmg`
+          ls -lh
+          ls -lh mapclient
+          ls -lh mapclient/res
+          ls -lh mapclient/res/macos
+          asset=`mapclient/res/macos/*.dmg`
           #ls mapclient/res/macos/*.dmg
-          #echo $asset
+          echo $asset
           echo "Upload it ..."
       - name: Create mapping tools assets
         shell: bash
+        if: ${{ steps.req_assets.outputs.include_mapping_tools }}
         run: |
           echo "Creating mapping tools asset"
           python -m venv venv
@@ -88,12 +94,8 @@ jobs:
 
           if [ "$RUNNER_OS" == "macOS" ]; then
             python_exe=$GITHUB_WORKSPACE/venv/bin/python
-            $GITHUB_WORKSPACE/venv/bin/pip install PySide2 PyInstaller
           elif [ "$RUNNER_OS" == "Windows" ]; then
-            ls venv/
-            ls venv/Scripts
             python_exe=$GITHUB_WORKSPACE/venv/Scripts/python.exe
-            $GITHUB_WORKSPACE/venv/Scripts/pip.exe install PySide2 PyInstaller
           else
             echo "$RUNNER_OS not supported"
             exit 1
