@@ -57,7 +57,7 @@ jobs:
           echo "::set-output name=MATRIX::{\"include\":[$content]}"
   build_asset:
     needs: setup
-    if: ${{ needs.setup.outputs.run-installer }}
+    if: needs.setup.outputs.run-installer
     name: build_asset
     runs-on: ${{ matrix.os }}
     strategy:
