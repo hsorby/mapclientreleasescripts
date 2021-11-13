@@ -42,12 +42,12 @@ jobs:
           function join_by { local IFS="$1"; shift; echo "$*"; }
           matrixElements=()
           if [ "${{ steps.req-assets.outputs.include_installer }}" == "true" ]; then
-            matrixElements+=('{"os":"windows-2019","variant":"mapclient","tag":"${{ steps.get-tag.outputs.tag }}"}')
-            matrixElements+=('{"os":"macos-10.15","variant":"mapclient","tag":"${{ steps.get-tag.outputs.tag }}"}')
+            matrixElements+=('{"os":"windows-2019","variant":"mapclient","tag":"${{ steps.get-tag.outputs.tag }}","python-version":"3.9"}')
+            matrixElements+=('{"os":"macos-10.15","variant":"mapclient","tag":"${{ steps.get-tag.outputs.tag }}","python-version":"3.9"}')
           fi
           if [ "${{ steps.req-assets.outputs.include_mapping_tools }}" == "true" ]; then
-            matrixElements+=('{"os":"windows-2019","variant":"mapping-tools","tag":"${{ steps.get-tag.outputs.tag }}"}')
-            matrixElements+=('{"os":"macos-10.15","variant":"mapping-tools","tag":"${{ steps.get-tag.outputs.tag }}"}')
+            matrixElements+=('{"os":"windows-2019","variant":"mapping-tools","tag":"${{ steps.get-tag.outputs.tag }}","python-version":"3.9"}')
+            matrixElements+=('{"os":"macos-10.15","variant":"mapping-tools","tag":"${{ steps.get-tag.outputs.tag }}","python-version":"3.9"}')
           fi
           content=`join_by ,  ${matrixElements[@]}`
           echo "::set-output name=matrix::{\"include\":[$content]}"
