@@ -74,3 +74,37 @@ jobs:
           cd scripts
           # ${{ steps.get_tag.outputs.tag }}
           python prepare_mapclient_release.py main
+      - name: Upload installer asset
+        shell: bash
+        run: |
+          cd $GITHUB_WORKSPACE
+          cd scripts
+          asset=`mapclient/res/macos/*.dmg`
+          ls mapclient/res/macos/*.dmg
+          echo $asset
+          echo "Upload it ..."
+      - name: Create mapping tools assets
+        shell: bash
+        run: |
+          echo "Creating mapping tools asset"
+          python -m venv venv
+          ls venv/
+
+          if [ "$RUNNER_OS" == "macOS" ]; then
+            python_exe=$GITHUB_WORKSPACE/venv/bin/python
+            $GITHUB_WORKSPACE/venv/bin/pip install PySide2 PyInstaller
+          elif [ "$RUNNER_OS" == "Windows" ]; then
+            ls venv/
+            ls venv/Scripts
+            python_exe=$GITHUB_WORKSPACE/venv/Scripts/python.exe
+            $GITHUB_WORKSPACE/venv/Scripts/pip.exe install PySide2 PyInstaller
+          else
+            echo "$RUNNER_OS not supported"
+            exit 1
+          fi
+          scripts_dir=$GITHUB_WORKSPACE/scripts
+          cd $scripts_dir
+          # ${{ steps.get_tag.outputs.tag }}
+          echo "$python_exe"
+          $python_exe prepare_mapclient_release.py main -v mapping-tools -p $scripts_dir/plugin_listing.txt -w $scripts_dir/workflow_listing.txt
+
