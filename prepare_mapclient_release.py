@@ -18,7 +18,7 @@ def main():
     variant = args.variant if args.variant is not None else ''
 
     result = subprocess.run(["pip", "install", "-U", 'pip'])
-    print(' == result install:', result.returncode)
+    print(' == result install:', result.returncode, flush=True)
 
     # Always install opencmiss.zinc, numpy, and scipy
     result = subprocess.run(["pip", "install", "opencmiss.zinc", "numpy", "scipy"])
@@ -50,7 +50,7 @@ def main():
     print(sys.executable, flush=True)
     # subprocess.run(['pip.exe', 'list'])
     # print(working_env)
-    print([sys.executable, "create_application.py", variant])
+    print([sys.executable, "create_application.py", variant], flush=True)
     result = subprocess.run([sys.executable, "create_application.py", variant], env=working_env)
     print(' == result application creation:', result.returncode, flush=True)
     os.chdir(current_directory)
@@ -62,7 +62,7 @@ def main():
         os.chdir(current_directory)
     elif platform.system() == "Darwin":
         os.chdir("mapclient/res/macos")
-        result = subprocess.run(["/bin/bash", "create_installer.sh", args.mapclient_release, f"-{variant}"], env=working_env)
+        result = subprocess.run(["/bin/bash", "create_installer.sh", args.mapclient_release, f"-{variant}" if variant else ''], env=working_env)
         print(' == result create installer:', result.returncode, flush=True)
         os.chdir(current_directory)
 
