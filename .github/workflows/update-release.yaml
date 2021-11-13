@@ -80,6 +80,7 @@ jobs:
           ls -lh mapclient
           ls -lh mapclient/res
           ls -lh mapclient/res/macos
+          chmod 755 mapclient/res/macos/*.dmg
           asset=`mapclient/res/macos/*.dmg`
           #ls mapclient/res/macos/*.dmg
           echo $asset
@@ -89,8 +90,8 @@ jobs:
         if: ${{ steps.req_assets.outputs.include_mapping_tools }}
         run: |
           echo "Creating mapping tools asset"
-          python -m venv venv
-          ls venv/
+          venv_name=venv-mapping-tools
+          python -m venv $venv_name
 
           if [ "$RUNNER_OS" == "macOS" ]; then
             python_exe=$GITHUB_WORKSPACE/venv/bin/python
