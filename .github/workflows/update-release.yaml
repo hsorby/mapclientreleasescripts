@@ -3,10 +3,11 @@ name: update-release
 on: push
 
 jobs:
-  build_setup:
+  setup:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
+      run-installer: ${{ steps.set-matrix.outputs.run-installer }}
     steps:
       - name: Get the tag
         id: get-tag
@@ -48,13 +49,19 @@ jobs:
             matrixElements+=('{"os":"macos-10.15","variant":"mapping-tools","tag":"${{ steps.get-tag.outputs.tag }}","python-version":"3.9"}')
           fi
           content=`join_by ,  ${matrixElements[@]}`
-          echo "::set-output name=matrix::{\"include\":[$content]}"
+          if [ "${#matrixElements[@]}" -eq "0" ]; then
+            echo "::set-output name=RUN-INSTALLER::false"
+          else
+            echo "::set-output name=RUN-INSTALLER::true"
+          fi
+          echo "::set-output name=MATRIX::{\"include\":[$content]}"
   build_asset:
-    needs: build_setup
+    needs: setup
+    if: ${{ needs.setup.outputs.run-installer }}
     name: build_asset
     runs-on: ${{ matrix.os }}
     strategy:
-      matrix: ${{fromJson(needs.build_setup.outputs.matrix)}}
+      matrix: ${{fromJson(needs.setup.outputs.matrix)}}
     steps:
       - name: Install create-dmg
         if: runner.os == 'macOS'
