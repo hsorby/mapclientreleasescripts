@@ -40,7 +40,7 @@ jobs:
         run: |
           matrixElements=()
           if [ "${{ steps.req-assets.outputs.include_installer }}" == "true" ]; then
-          {\"os\":\"windows-2019\",\"config\":\"Debug\"},{\"os\":\"macos-10.15\",\"config\":\"Release\"}
+            # {\"os\":\"windows-2019\",\"config\":\"Debug\"},{\"os\":\"macos-10.15\",\"config\":\"Release\"}
             matrixElements += ({\"os\":\"windows-2019\", \"variant\":\"mapclient\"})
             matrixElements += ({\"os\":\"macos-10.15\", \"variant\":\"mapclient\"})
           fi
