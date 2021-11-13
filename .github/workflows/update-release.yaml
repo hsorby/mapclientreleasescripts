@@ -103,26 +103,27 @@ jobs:
             echo "Variant not supported"
             exit 2
           fi
-          $pip_exe list
-          $python_exe -c "import PySide2;print(PySide2.__file__)"
-          echo $RUNNER_OS
-          ls -lh
-          ls -lh mapclient
           if [ "$RUNNER_OS" == "macOS" ]; then
-            ls -lh mapclient/res
-            ls -lh mapclient/res/macos
-            xattr -l mapclient/res/macos/*.dmg
-            ls -@l mapclient/res/macos/*.dmg
-            ls -le mapclient/res/macos/*.dmg
-            xattr -c mapclient/res/macos/*.dmg
-            # chmod 755 mapclient/res/macos/*.dmg
+            echo "Have to find out how to modify a finder window in headless mode with AppleScript."
+            echo "Asset not ready for $RUNNER_OS"
             #asset=`mapclient/res/macos/*.dmg`
-            # ls mapclient/res/macos/*.dmg
           elif [ "$RUNNER_OS" == "Windows" ]; then
             ls -lh mapclient/package
+            if [ "x${{ matrix.variant }}" == "x" ]; then
+              variant=
+            else
+              variant="-${{ matrix.variant }}"
+            fi
+            asset=$GITHUB_WORKSPACE/scripts/mapclient/package/MAP-Client${variant}-${{ matrix.tag }}.exe
+            echo "::set-output name=FILE::$asset"
           else
             echo "$RUNNER_OS not supported"
             exit 1
           fi
           # echo $asset
           echo "Upload it ..."
+        - name: Upload asset
+          if: runner.os != 'macOS'
+          uses: softprops/action-gh-release@v1
+          with:
+            files: ${{ steps.create-installer.outputs.file }}

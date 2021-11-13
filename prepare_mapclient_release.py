@@ -32,7 +32,6 @@ def main():
     print(' == result install extras:', result.returncode, flush=True)
 
     mapclient_url = "https://github.com/MusculoskeletalAtlasProject/mapclient"
-    print(["git", "-c", "advice.detachedHead=false", "clone", "--depth", "1", mapclient_url, "-b", args.mapclient_release], flush=True)
     result = subprocess.run(["git", "-c", "advice.detachedHead=false", "clone", "--depth", "1", mapclient_url, "-b", args.mapclient_release])
     print(' == result git:', result.returncode, flush=True)
 
@@ -53,11 +52,6 @@ def main():
 
     current_directory = os.getcwd()
     os.chdir("mapclient/res/pyinstaller/")
-    print('=======================')
-    print(sys.executable, flush=True)
-    # subprocess.run(['pip.exe', 'list'])
-    # print(working_env)
-    print([sys.executable, "create_application.py", variant], flush=True)
     result = subprocess.run([sys.executable, "create_application.py", variant], env=working_env)
     print(' == result application creation:', result.returncode, flush=True)
     os.chdir(current_directory)
