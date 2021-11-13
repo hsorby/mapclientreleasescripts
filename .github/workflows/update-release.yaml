@@ -2,39 +2,21 @@ name: update-release
 
 on: push
 
-
 jobs:
-  update_release:
-    name: update_release
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [macos-10.15]
-        python-version: ['3.9']
+  build_setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - name: View the github context
-        run: echo "$GITHUB_CONTEXT"
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
       - name: Get the tag
-        id: get_tag
+        id: get-tag
         shell: bash
         run: |
           echo "Setting tag as: ${GITHUB_REF#refs/tags/}"
           echo "${{ github.event.release.assets_url }}"
           echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Setup scripts
-        uses: actions/checkout@v2
-        with:
-          repository: hsorby/mapclientreleasescripts
-          path: scripts
-          ref: main
       - name: Determine required assets
-        id: req_assets
+        id: req-assets
         shell: cmake -P {0}
         run: |
           set(RELEASE_BODY "${{ github.event.release.body }}")
@@ -52,10 +34,42 @@ jobs:
               message("::set-output name=INCLUDE_INSTALLER::true")
             endif()
           endforeach()
+          message("::set-output name=INCLUDE_INSTALLER::true")
+      - name: set_matrix
+        id: set-matrix
+        run: |
+          matrixElements=()
+          if [ "${{ steps.req-assets.outputs.include_installer }}" == "true" ]; then
+          {\"os\":\"windows-2019\",\"config\":\"Debug\"},{\"os\":\"macos-10.15\",\"config\":\"Release\"}
+            matrixElements += ({\"os\":\"windows-2019\", \"variant\":\"mapclient\"})
+            matrixElements += ({\"os\":\"macos-10.15\", \"variant\":\"mapclient\"})
+          fi
+          if [ "${{ steps.req-assets.outputs.include_mapping_tools }}" == "true" ]; then
+            matrixElements += ({\"os\":\"windows-2019\", \"variant\":\"mapping-tools\"})
+            matrixElements += ({\"os\":\"macos-10.15\", \"variant\":\"mapping-tools\"})
+          fi
+          echo "::set-output name=matrix::{\"include\":[$matrixElements]}"
+  build_asset:
+    needs: build_setup
+    name: build_asset
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix: ${{fromJson(needs.build_setup.outputs.matrix)}}
+    steps:
       - name: Install create-dmg
         if: runner.os == 'macOS'
         shell: bash
         run: brew install create-dmg
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Setup scripts
+        uses: actions/checkout@v2
+        with:
+          repository: hsorby/mapclientreleasescripts
+          path: scripts
+          ref: main
       - name: Create installer asset
         shell: bash
         run: |
@@ -75,35 +89,27 @@ jobs:
           cd $GITHUB_WORKSPACE
           cd scripts
           # ${{ steps.get_tag.outputs.tag }}
-          python prepare_mapclient_release.py main
+          if [ "${{ matrix.variant }}" == "mapclient" ]; then
+            $python_exe prepare_mapclient_release.py ${{ matrix.tag }}
+          elif [ "${{ matrix.variant }}" == "mapping-tools" ]; then
+            $python_exe prepare_mapclient_release.py ${{ matrix.tag }} -v mapping-tools -p $scripts_dir/plugin_listing.txt -w $scripts_dir/workflow_listing.txt
+          else
+            echo "Variant not supported"
+            exit 2
+          fi
           ls -lh
           ls -lh mapclient
-          ls -lh mapclient/res
-          ls -lh mapclient/res/macos
-          chmod 755 mapclient/res/macos/*.dmg
-          asset=`mapclient/res/macos/*.dmg`
-          #ls mapclient/res/macos/*.dmg
-          echo $asset
-          echo "Upload it ..."
-      - name: Create mapping tools assets
-        shell: bash
-        if: ${{ steps.req_assets.outputs.include_mapping_tools }}
-        run: |
-          echo "Creating mapping tools asset"
-          venv_name=venv-mapping-tools
-          python -m venv $venv_name
-
           if [ "$RUNNER_OS" == "macOS" ]; then
-            python_exe=$GITHUB_WORKSPACE/venv/bin/python
+            ls -lh mapclient/res
+            ls -lh mapclient/res/macos
+            # chmod 755 mapclient/res/macos/*.dmg
+            #asset=`mapclient/res/macos/*.dmg`
+            # ls mapclient/res/macos/*.dmg
           elif [ "$RUNNER_OS" == "Windows" ]; then
-            python_exe=$GITHUB_WORKSPACE/venv/Scripts/python.exe
+            ls -lh mapclient/package
           else
             echo "$RUNNER_OS not supported"
             exit 1
           fi
-          scripts_dir=$GITHUB_WORKSPACE/scripts
-          cd $scripts_dir
-          # ${{ steps.get_tag.outputs.tag }}
-          echo "$python_exe"
-          $python_exe prepare_mapclient_release.py main -v mapping-tools -p $scripts_dir/plugin_listing.txt -w $scripts_dir/workflow_listing.txt
-
+          # echo $asset
+          echo "Upload it ..."
