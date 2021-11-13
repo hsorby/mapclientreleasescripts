@@ -36,6 +36,7 @@ jobs:
             endif()
           endforeach()
           message("::set-output name=INCLUDE_INSTALLER::true")
+          message("::set-output name=INCLUDE_MAPPING_TOOLS::true")
       - name: set_matrix
         id: set-matrix
         run: |
@@ -100,6 +101,8 @@ jobs:
             echo "Variant not supported"
             exit 2
           fi
+          $python_exe -c "import PySide2;print(PySide2.__file__)"
+          echo $RUNNER_OS
           ls -lh
           ls -lh mapclient
           if [ "$RUNNER_OS" == "macOS" ]; then
@@ -114,7 +117,6 @@ jobs:
             # ls mapclient/res/macos/*.dmg
           elif [ "$RUNNER_OS" == "Windows" ]; then
             ls -lh mapclient/package
-            ls -lh mapclient/package/
           else
             echo "$RUNNER_OS not supported"
             exit 1
