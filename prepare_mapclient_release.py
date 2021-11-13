@@ -24,7 +24,7 @@ def main():
 
     pip = available_pips[0]
 
-    result = subprocess.run([pip, "install", "-U", 'pip'])
+    result = subprocess.run([sys.executable, "-m", "pip", "install", "--upgrade", "pip"])
     print(' == result install:', result.returncode, flush=True)
 
     # Always install opencmiss.zinc, numpy, and scipy
