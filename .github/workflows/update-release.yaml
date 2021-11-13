@@ -73,6 +73,7 @@ jobs:
           path: scripts
           ref: main
       - name: Create installer asset
+        id: create-installer
         shell: bash
         run: |
           echo "Creating installer asset"
@@ -104,11 +105,16 @@ jobs:
           if [ "$RUNNER_OS" == "macOS" ]; then
             ls -lh mapclient/res
             ls -lh mapclient/res/macos
+            xattr -l mapclient/res/macos/*.dmg
+            ls -@l mapclient/res/macos/*.dmg
+            ls -le mapclient/res/macos/*.dmg
+            xattr -c mapclient/res/macos/*.dmg
             # chmod 755 mapclient/res/macos/*.dmg
             #asset=`mapclient/res/macos/*.dmg`
             # ls mapclient/res/macos/*.dmg
           elif [ "$RUNNER_OS" == "Windows" ]; then
             ls -lh mapclient/package
+            ls -lh mapclient/package/
           else
             echo "$RUNNER_OS not supported"
             exit 1
