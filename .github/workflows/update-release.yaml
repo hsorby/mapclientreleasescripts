@@ -122,8 +122,8 @@ jobs:
           fi
           # echo $asset
           echo "Upload it ..."
-        - name: Upload asset
-          if: runner.os != 'macOS'
-          uses: softprops/action-gh-release@v1
-          with:
-            files: ${{ steps.create-installer.outputs.file }}
+      - name: Upload asset
+        if: runner.os != 'macOS'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ steps.create-installer.outputs.file }}
