@@ -25,6 +25,7 @@ def main():
     print(' == result install extras:', result.returncode, flush=True)
 
     mapclient_url = "https://github.com/MusculoskeletalAtlasProject/mapclient"
+    print(["git", "-c", "advice.detachedHead=false", "clone", "--depth", "1", mapclient_url, "-b", args.mapclient_release], flush=True)
     result = subprocess.run(["git", "-c", "advice.detachedHead=false", "clone", "--depth", "1", mapclient_url, "-b", args.mapclient_release])
     print(' == result git:', result.returncode, flush=True)
 

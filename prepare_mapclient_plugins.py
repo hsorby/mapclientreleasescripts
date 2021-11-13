@@ -23,7 +23,7 @@ def main():
             url = parts[0]
             tag = parts[1]
             result = subprocess.run(["git", "-c", "advice.detachedHead=false", "clone", "--depth", "1", url, "-b", tag])
-            print(' == result git:', result.returncode)
+            print(' == result git:', result.returncode, flush=True)
             try:
                 result.check_returncode()
             except subprocess.CalledProcessError as e:
@@ -37,7 +37,7 @@ def main():
                 dir_name = re.sub(".git$", "", dir_name)
 
             result = subprocess.run(["pip", "install", "-e", dir_name])
-            print(' == result install:', result.returncode)
+            print(' == result install:', result.returncode, flush=True)
             result.check_returncode()
 
 

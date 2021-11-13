@@ -35,12 +35,12 @@ def main():
                     f.write(os.path.basename(url))
 
             result = subprocess.run(["git", "-c", "advice.detachedHead=false", "clone", "--depth", "1", url, "-b", tag])
-            print(' == result git:', result.returncode)
+            print(' == result git:', result.returncode, flush=True)
             try:
                 result.check_returncode()
             except subprocess.CalledProcessError as e:
                 if e.returncode == 128:
-                    print(' == skipping existing expecting version:', tag[1:])
+                    print(' == skipping existing expecting version:', tag[1:], flush=True)
                 else:
                     sys.exit(e.returncode)
 
