@@ -1,0 +1,76 @@
+name: update-release
+
+on: push
+
+
+jobs:
+  update_release:
+    name: update_release
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-10.15]
+        python-version: ['3.9']
+    steps:
+      - name: View the github context
+        run: echo "$GITHUB_CONTEXT"
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+      - name: Get the tag
+        id: get_tag
+        shell: bash
+        run: |
+          echo "Setting tag as: ${GITHUB_REF#refs/tags/}"
+          echo "${{ github.event.release.assets_url }}"
+          echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Setup scripts
+        uses: actions/checkout@v2
+        with:
+          repository: hsorby/mapclientreleasescripts
+          path: scripts
+          ref: main
+      - name: Determine required assets
+        id: req_assets
+        shell: cmake -P {0}
+        run: |
+          set(RELEASE_BODY "${{ github.event.release.body }}")
+
+          string(REPLACE "\n" ";" _PARTS "${RELEASE_BODY}")
+
+          foreach(_PART ${_PARTS})
+            string(STRIP "${_PART}" _PART)
+            if ("${_PART}" STREQUAL "[cd release with mapping tools]")
+              message(STATUS "Require a MAP Client mapping tools variant.")
+              message("::set-output name=INCLUDE_MAPPING_TOOLS::true")
+            endif()
+            if ("${_PART}" STREQUAL "[cd release with installer]")
+              message(STATUS "Require a MAP Client installer.")
+              message("::set-output name=INCLUDE_INSTALLER::true")
+            endif()
+          endforeach()
+      - name: Install create-dmg
+        if: runner.os == 'macOS'
+        shell: bash
+        run: brew install create-dmg
+      - name: Create installer asset
+        shell: bash
+        run: |
+          echo "Creating installer asset"
+          python -m venv venv
+          ls venv/
+          if [ "$RUNNER_OS" == "macOS" ]; then
+            source venv/bin/activate
+          elif [ "$RUNNER_OS" == "Windows" ]; then
+            source venv/Scripts/activate
+          else
+            echo "$RUNNER_OS not supported"
+            exit 1
+          fi
+          cd $GITHUB_WORKSPACE
+          cd scripts
+          # ${{ steps.get_tag.outputs.tag }}
+          python prepare_mapclient_release.py main
