@@ -14,8 +14,7 @@ jobs:
         run: |
           echo "Setting tag as: ${GITHUB_REF#refs/tags/}"
           echo "${{ github.event.release.assets_url }}"
-          # echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
-          echo ::set-output name=TAG::main
+          echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
       - name: Determine required assets
         id: req-assets
         shell: cmake -P {0}
@@ -35,8 +34,6 @@ jobs:
               message("::set-output name=INCLUDE_INSTALLER::true")
             endif()
           endforeach()
-          message("::set-output name=INCLUDE_INSTALLER::true")
-          message("::set-output name=INCLUDE_MAPPING_TOOLS::true")
       - name: set_matrix
         id: set-matrix
         run: |
@@ -79,7 +76,6 @@ jobs:
         run: |
           echo "Creating installer asset"
           python -m venv venv
-          ls venv/
           if [ "$RUNNER_OS" == "macOS" ]; then
             python_exe=$GITHUB_WORKSPACE/venv/bin/python
             pip_exe=$GITHUB_WORKSPACE/venv/bin/pip
@@ -115,6 +111,7 @@ jobs:
               variant="-${{ matrix.variant }}"
             fi
             asset=$GITHUB_WORKSPACE/scripts/mapclient/package/MAP-Client${variant}-${{ matrix.tag }}.exe
+            echo $asset
             echo "::set-output name=FILE::$asset"
           else
             echo "$RUNNER_OS not supported"
@@ -127,3 +124,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: ${{ steps.create-installer.outputs.file }}
+          tag_name: ${{ matrix.tag }}
