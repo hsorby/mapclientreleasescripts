@@ -41,13 +41,12 @@ jobs:
           function join_by { local IFS="$1"; shift; echo "$*"; }
           matrixElements=()
           if [ "${{ steps.req-assets.outputs.include_installer }}" == "true" ]; then
-            # {\"os\":\"windows-2019\",\"config\":\"Debug\"},{\"os\":\"macos-10.15\",\"config\":\"Release\"}
-            matrixElements+=('{\"os\":\"windows-2019\",\"variant\":\"mapclient\"}')
-            matrixElements+=('{\"os\":\"macos-10.15\",\"variant\":\"mapclient\"}')
+            matrixElements+=('{"os":"windows-2019","variant":"mapclient"}')
+            matrixElements+=('{"os":"macos-10.15","variant":"mapclient"}')
           fi
           if [ "${{ steps.req-assets.outputs.include_mapping_tools }}" == "true" ]; then
-            matrixElements+=('{\"os\":\"windows-2019\",\"variant\":\"mapping-tools\"}')
-            matrixElements+=('{\"os\":\"macos-10.15\",\"variant\":\"mapping-tools\"}')
+            matrixElements+=('{"os":"windows-2019","variant":"mapping-tools"}')
+            matrixElements+=('{"os":"macos-10.15","variant":"mapping-tools"}')
           fi
           content=`join_by ,  ${matrixElements[@]}`
           echo "::set-output name=matrix::{\"include\":[$content]}"
