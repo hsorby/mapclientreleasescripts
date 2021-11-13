@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import argparse
+import glob
 import os
 import os.path
 import platform
@@ -17,11 +18,17 @@ def main():
 
     variant = args.variant if args.variant is not None else ''
 
-    result = subprocess.run(["pip", "install", "-U", 'pip'])
+    available_pips = glob.glob(os.path.join(os.path.dirname(sys.executable), 'pip*'))
+    if len(available_pips) == 0:
+        sys.exit(1)
+
+    pip = available_pips[0]
+
+    result = subprocess.run([pip, "install", "-U", 'pip'])
     print(' == result install:', result.returncode, flush=True)
 
     # Always install opencmiss.zinc, numpy, and scipy
-    result = subprocess.run(["pip", "install", "opencmiss.zinc", "numpy", "scipy"])
+    result = subprocess.run([pip, "install", "opencmiss.zinc", "numpy", "scipy"])
     print(' == result install extras:', result.returncode, flush=True)
 
     mapclient_url = "https://github.com/MusculoskeletalAtlasProject/mapclient"
@@ -29,7 +36,7 @@ def main():
     result = subprocess.run(["git", "-c", "advice.detachedHead=false", "clone", "--depth", "1", mapclient_url, "-b", args.mapclient_release])
     print(' == result git:', result.returncode, flush=True)
 
-    result = subprocess.run(["pip", "install", "-e", 'mapclient/src'])
+    result = subprocess.run([pip, "install", "-e", 'mapclient/src'])
     print(' == result install:', result.returncode, flush=True)
 
     if args.plugins is not None and os.path.isfile(args.plugins):

@@ -82,9 +82,11 @@ jobs:
           ls venv/
           if [ "$RUNNER_OS" == "macOS" ]; then
             python_exe=$GITHUB_WORKSPACE/venv/bin/python
+            pip_exe=$GITHUB_WORKSPACE/venv/bin/pip
             # source venv/bin/activate
           elif [ "$RUNNER_OS" == "Windows" ]; then
             python_exe=$GITHUB_WORKSPACE/venv/Scripts/python.exe
+            pip_exe=$GITHUB_WORKSPACE/venv/Scripts/pip.exe
             # source venv/Scripts/activate
           else
             echo "$RUNNER_OS not supported"
@@ -101,6 +103,7 @@ jobs:
             echo "Variant not supported"
             exit 2
           fi
+          $pip_exe list
           $python_exe -c "import PySide2;print(PySide2.__file__)"
           echo $RUNNER_OS
           ls -lh

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import argparse
+import glob
 import os.path
 import re
 import subprocess
@@ -12,7 +13,13 @@ def main():
     args = parser.parse_args()
 
     if not os.path.exists(args.plugin_listing):
-        sys.exit(1)
+        sys.exit(2)
+
+    available_pips = glob.glob(os.path.join(os.path.dirname(sys.executable), 'pip*'))
+    if len(available_pips) == 0:
+        sys.exit(3)
+
+    pip = available_pips[0]
 
     with open(args.plugin_listing) as f:
         plugins = f.readlines()
@@ -36,7 +43,7 @@ def main():
             if dir_name.endswith(".git"):
                 dir_name = re.sub(".git$", "", dir_name)
 
-            result = subprocess.run(["pip", "install", "-e", dir_name])
+            result = subprocess.run([pip, "install", "-e", dir_name])
             print(' == result install:', result.returncode, flush=True)
             result.check_returncode()
 
