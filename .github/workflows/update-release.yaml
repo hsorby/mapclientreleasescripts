@@ -119,7 +119,7 @@ jobs:
               variant="-${{ matrix.variant }}"
             fi
             # asset=$GITHUB_WORKSPACE/scripts/mapclient/package/MAP-Client${variant}-${{ matrix.tag }}.exe
-            asset=`ls -l -1 "$PWD"/MAP-Client*.exe`
+            asset=`ls -l -1 "$PWD"/mapclient/package/MAP-Client*.exe`
             echo $asset
             echo "::set-output name=FILE::$asset"
           else
