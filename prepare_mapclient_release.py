@@ -35,7 +35,7 @@ def main():
     result = subprocess.run(["git", "-c", "advice.detachedHead=false", "clone", "--depth", "1", mapclient_url, "-b", args.mapclient_release])
     print(' == result git:', result.returncode, flush=True)
 
-    result = subprocess.run([pip, "install", "-e", 'mapclient/src'])
+    result = subprocess.run([pip, "install", "-e", 'temp-mapclient/src'])
     print(' == result install:', result.returncode, flush=True)
 
     if args.plugins is not None and os.path.isfile(args.plugins):
