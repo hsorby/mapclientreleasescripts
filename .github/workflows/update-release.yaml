@@ -50,7 +50,6 @@ jobs:
           fi
           if [ "${#matrixElements[@]}" -eq "0" ]; then
             echo "::set-output name=RUN-INSTALLER::false"
-            # matrixElements+=('{"os":"windows-2019","variant":"mapclient","tag":"${{ steps.get-tag.outputs.tag }}","python-version":"3.9"}')
           else
             echo "::set-output name=RUN-INSTALLER::true"
           fi
@@ -119,7 +118,8 @@ jobs:
             else
               variant="-${{ matrix.variant }}"
             fi
-            asset=$GITHUB_WORKSPACE/scripts/mapclient/package/MAP-Client${variant}-${{ matrix.tag }}.exe
+            # asset=$GITHUB_WORKSPACE/scripts/mapclient/package/MAP-Client${variant}-${{ matrix.tag }}.exe
+            asset=`ls -l -1 "$PWD"/MAP-Client*.exe`
             echo $asset
             echo "::set-output name=FILE::$asset"
           else
