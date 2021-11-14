@@ -50,7 +50,7 @@ jobs:
           fi
           if [ "${#matrixElements[@]}" -eq "0" ]; then
             echo "::set-output name=RUN-INSTALLER::false"
-            matrixElements+=('{"os":"windows-2019","variant":"mapclient","tag":"${{ steps.get-tag.outputs.tag }}","python-version":"3.9"}')
+            # matrixElements+=('{"os":"windows-2019","variant":"mapclient","tag":"${{ steps.get-tag.outputs.tag }}","python-version":"3.9"}')
           else
             echo "::set-output name=RUN-INSTALLER::true"
           fi
