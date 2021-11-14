@@ -51,7 +51,7 @@ def main():
         working_env["INTERNAL_WORKFLOWS_ZIP"] = os.path.abspath('internal_workflows.zip')
 
     current_directory = os.getcwd()
-    os.chdir("mapclient/res/pyinstaller/")
+    os.chdir("temp-mapclient/res/pyinstaller/")
     result = subprocess.run([sys.executable, "create_application.py", variant], env=working_env)
     print(' == result application creation:', result.returncode, flush=True)
     os.chdir(current_directory)
@@ -62,12 +62,12 @@ def main():
     release_name = '.'.join(tag_parts[:3])
 
     if platform.system() == "Windows":
-        os.chdir("mapclient/res/win")
+        os.chdir("temp-mapclient/res/win")
         result = subprocess.run([sys.executable, "create_installer.py", release_name, variant], env=working_env)
         print(' == result create installer:', result.returncode, flush=True)
         os.chdir(current_directory)
     elif platform.system() == "Darwin":
-        os.chdir("mapclient/res/macos")
+        os.chdir("temp-mapclient/res/macos")
         result = subprocess.run(["/bin/bash", "create_installer.sh", release_name, f"-{variant}" if variant else ''], env=working_env)
         print(' == result create installer:', result.returncode, flush=True)
         os.chdir(current_directory)
