@@ -31,7 +31,7 @@ def main():
     result = subprocess.run([pip, "install", "opencmiss.zinc", "numpy", "scipy"])
     print(' == result install extras:', result.returncode, flush=True)
 
-    mapclient_url = "https://github.com/MusculoskeletalAtlasProject/mapclient"
+    mapclient_url = "https://github.com/MusculoskeletalAtlasProject/temp-mapclient"
     result = subprocess.run(["git", "-c", "advice.detachedHead=false", "clone", "--depth", "1", mapclient_url, "-b", args.mapclient_release])
     print(' == result git:', result.returncode, flush=True)
 
