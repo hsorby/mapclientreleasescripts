@@ -56,14 +56,19 @@ def main():
     print(' == result application creation:', result.returncode, flush=True)
     os.chdir(current_directory)
 
+    # Define a release name from the release tag
+    tag = args.mapclient_release
+    tag_parts = tag[1:].split('.')
+    release_name = '.'.join(tag_parts[:3])
+
     if platform.system() == "Windows":
         os.chdir("mapclient/res/win")
-        result = subprocess.run([sys.executable, "create_installer.py", args.mapclient_release, variant], env=working_env)
+        result = subprocess.run([sys.executable, "create_installer.py", release_name, variant], env=working_env)
         print(' == result create installer:', result.returncode, flush=True)
         os.chdir(current_directory)
     elif platform.system() == "Darwin":
         os.chdir("mapclient/res/macos")
-        result = subprocess.run(["/bin/bash", "create_installer.sh", args.mapclient_release, f"-{variant}" if variant else ''], env=working_env)
+        result = subprocess.run(["/bin/bash", "create_installer.sh", release_name, f"-{variant}" if variant else ''], env=working_env)
         print(' == result create installer:', result.returncode, flush=True)
         os.chdir(current_directory)
 
