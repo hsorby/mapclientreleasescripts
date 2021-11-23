@@ -34,8 +34,6 @@ def main():
     result = subprocess.run([pip, "install", "opencmiss.zinc", "numpy", "scipy"])
     print(' == result install extras:', result.returncode, flush=True)
 
-    from opencmiss.zinc.context import Context
-
     mapclient_url = f"https://github.com/MusculoskeletalAtlasProject/{MAP_CLIENT_REPO}"
     result = subprocess.run(["git", "-c", "advice.detachedHead=false", "clone", "--depth", "1", mapclient_url, "-b", args.mapclient_release])
     print(' == result git:', result.returncode, flush=True)
@@ -57,9 +55,6 @@ def main():
 
     current_directory = os.getcwd()
     os.chdir(f"{MAP_CLIENT_REPO}/res/pyinstaller/")
-    print('-------------------------------------------------------', flush=True)
-    print([sys.executable, "create_application.py", variant], flush=True)
-    print(os.listdir(), flush=True)
     result = subprocess.run([sys.executable, "create_application.py", variant], env=working_env)
     print(' == result application creation:', result.returncode, flush=True)
     os.chdir(current_directory)
