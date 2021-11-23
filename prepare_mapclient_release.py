@@ -8,6 +8,9 @@ import subprocess
 import sys
 
 
+MAP_CLIENT_REPO = "mapclient"
+
+
 def main():
     parser = argparse.ArgumentParser(prog="release_preparation")
     parser.add_argument("mapclient_release", help="tag from mapclient codebase")
@@ -33,11 +36,11 @@ def main():
 
     from opencmiss.zinc.context import Context
 
-    mapclient_url = "https://github.com/MusculoskeletalAtlasProject/temp-mapclient"
+    mapclient_url = f"https://github.com/MusculoskeletalAtlasProject/{MAP_CLIENT_REPO}"
     result = subprocess.run(["git", "-c", "advice.detachedHead=false", "clone", "--depth", "1", mapclient_url, "-b", args.mapclient_release])
     print(' == result git:', result.returncode, flush=True)
 
-    result = subprocess.run([pip, "install", "-e", 'temp-mapclient/src'])
+    result = subprocess.run([pip, "install", "-e", f"{MAP_CLIENT_REPO}/src"])
     print(' == result install:', result.returncode, flush=True)
 
     if args.plugins is not None and os.path.isfile(args.plugins):
@@ -53,7 +56,7 @@ def main():
         working_env["INTERNAL_WORKFLOWS_ZIP"] = os.path.abspath('internal_workflows.zip')
 
     current_directory = os.getcwd()
-    os.chdir("temp-mapclient/res/pyinstaller/")
+    os.chdir(f"{MAP_CLIENT_REPO}/res/pyinstaller/")
     print('-------------------------------------------------------', flush=True)
     print([sys.executable, "create_application.py", variant], flush=True)
     print(os.listdir(), flush=True)
@@ -67,12 +70,12 @@ def main():
     release_name = '.'.join(tag_parts[:3])
 
     if platform.system() == "Windows":
-        os.chdir("temp-mapclient/res/win")
+        os.chdir(f"{MAP_CLIENT_REPO}/res/win")
         result = subprocess.run([sys.executable, "create_installer.py", release_name, variant], env=working_env)
         print(' == result create installer:', result.returncode, flush=True)
         os.chdir(current_directory)
     elif platform.system() == "Darwin":
-        os.chdir("temp-mapclient/res/macos")
+        os.chdir(f"{MAP_CLIENT_REPO}/res/macos")
         result = subprocess.run(["/bin/bash", "create_installer.sh", release_name, f"-{variant}" if variant else ''], env=working_env)
         print(' == result create installer:', result.returncode, flush=True)
         os.chdir(current_directory)
