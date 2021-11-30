@@ -3,7 +3,7 @@ https://github.com/ABI-Software/mapclientplugins.meshgeneratorstep v0.3.0
 https://github.com/ABI-Software/mapclientplugins.geometricfitstep v0.1.1
 https://github.com/ABI-Software/mapclientplugins.mbfxml2exconverterstep v0.1.1
 https://github.com/mapclient-plugins/mapclientplugins.saveargondocumentstep v0.1.0
-https://github.com/mapclient-plugins/mapclientplugins.argonviewerstep.git v0.1.1
+https://github.com/mapclient-plugins/mapclientplugins.argonviewerstep.git v0.1.2
 https://github.com/mapclient-plugins/mapclientplugins.argonsceneexporterstep.git v0.2.2
 https://github.com/mapclient-plugins/mapclientplugins.sparccurationhelperstep v0.2.0
 https://github.com/mapclient-plugins/mapclientplugins.filelocationsinkstep v0.2.0
