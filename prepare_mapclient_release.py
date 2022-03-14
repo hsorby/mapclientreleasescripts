@@ -23,7 +23,7 @@ def main():
     parser.add_argument("--pre", action='store_true', help="Allow pre-release versions")
     args = parser.parse_args()
 
-    cut_short = True
+    cut_short = False
     local_mapclient = args.local
 
     variant = args.variant if args.variant is not None else ''
