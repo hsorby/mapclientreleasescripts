@@ -10,6 +10,8 @@ import sys
 
 MAP_CLIENT_REPO = "mapclient"
 
+here = os.path.abspath(os.path.dirname(__file__))
+
 
 def main():
     parser = argparse.ArgumentParser(prog="release_preparation")
@@ -17,7 +19,12 @@ def main():
     parser.add_argument('-p', '--plugins', help='input plugins list file')
     parser.add_argument('-w', '--workflows', help='input workflows list file')
     parser.add_argument('-v', '--variant', help='variant label for this build')
+    parser.add_argument('-l', '--local', help='absolute path to locally available MAP Client')
+    parser.add_argument("--pre", action='store_true', help="Allow pre-release versions")
     args = parser.parse_args()
+
+    cut_short = True
+    local_mapclient = args.local
 
     variant = args.variant if args.variant is not None else ''
 
@@ -34,24 +41,32 @@ def main():
     result = subprocess.run([pip, "install", "opencmiss.zinc", "numpy", "scipy"])
     print(' == result install extras:', result.returncode, flush=True)
 
-    mapclient_url = f"https://github.com/MusculoskeletalAtlasProject/{MAP_CLIENT_REPO}"
-    result = subprocess.run(["git", "-c", "advice.detachedHead=false", "clone", "--depth", "1", mapclient_url, "-b", args.mapclient_release])
-    print(' == result git:', result.returncode, flush=True)
+    if local_mapclient is None:
+        mapclient_url = f"https://github.com/MusculoskeletalAtlasProject/{MAP_CLIENT_REPO}"
+        local_mapclient = MAP_CLIENT_REPO
+        result = subprocess.run(["git", "-c", "advice.detachedHead=false", "clone", "--depth", "1", mapclient_url, "-b", args.mapclient_release])
+        print(' == result git:', result.returncode, flush=True)
 
-    result = subprocess.run([pip, "install", "-e", f"{MAP_CLIENT_REPO}/src"])
+    result = subprocess.run([pip, "install", "-e", f"{local_mapclient}/src"])
     print(' == result install:', result.returncode, flush=True)
 
     if args.plugins is not None and os.path.isfile(args.plugins):
-        result = subprocess.run([sys.executable, "prepare_mapclient_plugins.py", args.plugins])
+        prepare_plugin_cmd = [sys.executable, os.path.join(here, "prepare_mapclient_plugins.py"), args.plugins]
+        if args.pre:
+            prepare_plugin_cmd.append("--pre")
+        result = subprocess.run(prepare_plugin_cmd)
         print(' == result plugins preparation:', result.returncode, flush=True)
 
     working_env = os.environ.copy()
 
     if args.workflows is not None and os.path.isfile(args.workflows):
-        result = subprocess.run([sys.executable, "prepare_mapclient_workflows.py", args.workflows])
+        result = subprocess.run([sys.executable, os.path.join(here, "prepare_mapclient_workflows.py"), args.workflows])
         print(' == result workflow preparation:', result.returncode, flush=True)
 
         working_env["INTERNAL_WORKFLOWS_ZIP"] = os.path.abspath('internal_workflows.zip')
+
+    if cut_short:
+        return
 
     current_directory = os.getcwd()
     os.chdir(f"{MAP_CLIENT_REPO}/res/pyinstaller/")
