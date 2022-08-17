@@ -6,7 +6,7 @@ https://github.com/ABI-Software/mapclientplugins.scaffoldcreator v0.4.1
 https://github.com/mapclient-plugins/mapclientplugins.argonsceneexporterstep.git v0.3.0
 https://github.com/mapclient-plugins/mapclientplugins.argonviewerstep.git v0.2.3
 https://github.com/mapclient-plugins/mapclientplugins.convertcoordinatefieldstep.git v0.1.0
-https://github.com/mapclient-plugins/mapclientplugins.convertdatatozincstep.git v0.1.1
+https://github.com/mapclient-plugins/mapclientplugins.convertdatatozincstep.git v0.1.2
 https://github.com/mapclient-plugins/mapclientplugins.dictserializerstep v0.1.3
 https://github.com/mapclient-plugins/mapclientplugins.directorychooserstep v0.1.3
 https://github.com/mapclient-plugins/mapclientplugins.filechooserstep v0.1.3
