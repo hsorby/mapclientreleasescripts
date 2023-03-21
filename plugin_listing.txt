@@ -16,5 +16,5 @@ https://github.com/mapclient-plugins/mapclientplugins.mergezincdatastep v0.1.0
 https://github.com/mapclient-plugins/mapclientplugins.muxerstep v0.1.2
 https://github.com/mapclient-plugins/mapclientplugins.propagatezincdatastep v0.1.1
 https://github.com/mapclient-plugins/mapclientplugins.saveargondocumentstep v0.1.2
-https://github.com/mapclient-plugins/mapclientplugins.sparccurationhelperstep v0.3.3
+https://github.com/mapclient-plugins/mapclientplugins.sparccurationhelperstep v0.3.4
 https://github.com/mapclient-plugins/multiplefilechooser v0.1.3
