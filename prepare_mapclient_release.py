@@ -37,8 +37,8 @@ def main():
     result = subprocess.run([sys.executable, "-m", "pip", "install", "--upgrade", "pip"])
     print(' == result install:', result.returncode, flush=True)
 
-    # Always install opencmiss.zinc, numpy, and scipy
-    result = subprocess.run([pip, "install", "opencmiss.zinc", "numpy", "scipy"])
+    # Always install numpy, and scipy
+    result = subprocess.run([pip, "install", "numpy", "scipy"])
     print(' == result install extras:', result.returncode, flush=True)
 
     if local_mapclient is None:

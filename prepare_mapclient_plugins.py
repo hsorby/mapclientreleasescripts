@@ -26,7 +26,9 @@ def main():
     with open(args.plugin_listing) as f:
         plugins = f.readlines()
 
-    site_packages_dir = site.getsitepackages()[0]
+    site_packages_dir = site.getsitepackages()
+    print(site_packages_dir)
+    sys.exit(3)
     print(' == site packages dir:', site_packages_dir)
     plugin_paths = []
     for plugin_info in plugins:
