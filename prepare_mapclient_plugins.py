@@ -3,6 +3,7 @@ import argparse
 import glob
 import os.path
 import re
+import site
 import subprocess
 import sys
 
@@ -25,6 +26,9 @@ def main():
     with open(args.plugin_listing) as f:
         plugins = f.readlines()
 
+    site_packages_dir = site.getsitepackages()[0]
+    print(' == site packages dir:', site_packages_dir)
+    plugin_paths = []
     for plugin_info in plugins:
         parts = plugin_info.split()
         if len(parts) > 0:
@@ -52,6 +56,7 @@ def main():
             if dir_name.endswith(".git"):
                 dir_name = re.sub(".git$", "", dir_name)
 
+            plugin_paths.append(os.path.abspath(dir_name))
             pip_install_cmd = [pip, "install", "-e", dir_name]
             if args.pre is not None:
                 pip_install_cmd.append("--pre")
@@ -59,6 +64,12 @@ def main():
             result = subprocess.run(pip_install_cmd)
             print(' == result install:', result.returncode, flush=True)
             result.check_returncode()
+
+    with open(os.path.join(site_packages_dir, 'mapclientplugins_paths.pth'), 'w') as f:
+        f.writelines(plugin_paths)
+
+    print(' == plugin paths:')
+    print(plugin_paths)
 
 
 if __name__ == "__main__":
