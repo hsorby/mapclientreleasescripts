@@ -26,8 +26,8 @@ def main():
     with open(args.plugin_listing) as f:
         plugins = f.readlines()
 
-    site_packages_dir = [s for s in site.getsitepackages() if s.find('site-packages') >= 0][0]
-    print(' == site packages dir:', site_packages_dir)
+    # site_packages_dir = [s for s in site.getsitepackages() if s.find('site-packages') >= 0][0]
+    # print(' == site packages dir:', site_packages_dir)
     plugin_paths = []
     for plugin_info in plugins:
         parts = plugin_info.split()
@@ -65,12 +65,13 @@ def main():
             print(' == result install:', result.returncode, flush=True)
             result.check_returncode()
 
-    with open(os.path.join(site_packages_dir, 'mapclientplugins_paths.pth'), 'w') as f:
+    current_dir = os.getcwd()
+    with open(os.path.join(current_dir, 'mapclientplugins_paths.txt'), 'w') as f:
         f.writelines(plugin_paths)
 
-    print(' == mapclientplugins pth file:')
+    print(' == mapclientplugins path file:')
 
-    with open(os.path.join(site_packages_dir, 'mapclientplugins_paths.pth')) as f:
+    with open(os.path.join(current_dir, 'mapclientplugins_paths.txt')) as f:
         print(f.read())
 
 
