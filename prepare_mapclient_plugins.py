@@ -26,9 +26,7 @@ def main():
     with open(args.plugin_listing) as f:
         plugins = f.readlines()
 
-    site_packages_dir = site.getsitepackages()
-    print(site_packages_dir)
-    sys.exit(3)
+    site_packages_dir = [s for s in site.getsitepackages() if s.find('site-packages') >= 0][0]
     print(' == site packages dir:', site_packages_dir)
     plugin_paths = []
     for plugin_info in plugins:
@@ -72,6 +70,9 @@ def main():
 
     print(' == plugin paths:')
     print(plugin_paths)
+
+    with open(os.path.join(site_packages_dir, 'mapclientplugins_paths.pth')) as f:
+        print(f.read())
 
 
 if __name__ == "__main__":
