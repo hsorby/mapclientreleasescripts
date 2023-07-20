@@ -56,7 +56,7 @@ def main():
             if dir_name.endswith(".git"):
                 dir_name = re.sub(".git$", "", dir_name)
 
-            plugin_paths.append(os.path.abspath(dir_name))
+            plugin_paths.append(os.path.abspath(dir_name) + "\n")
             pip_install_cmd = [pip, "install", "-e", dir_name]
             if args.pre is not None:
                 pip_install_cmd.append("--pre")
@@ -68,8 +68,7 @@ def main():
     with open(os.path.join(site_packages_dir, 'mapclientplugins_paths.pth'), 'w') as f:
         f.writelines(plugin_paths)
 
-    print(' == plugin paths:')
-    print(plugin_paths)
+    print(' == mapclientplugins pth file:')
 
     with open(os.path.join(site_packages_dir, 'mapclientplugins_paths.pth')) as f:
         print(f.read())
