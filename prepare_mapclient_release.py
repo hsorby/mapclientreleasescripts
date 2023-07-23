@@ -50,7 +50,9 @@ def main():
     result = subprocess.run([pip, "install", "-e", f"{local_mapclient}/src"])
     print(' == result install:', result.returncode, flush=True)
 
+    have_plugins = False
     if args.plugins is not None and os.path.isfile(args.plugins):
+        have_plugins = True
         prepare_plugin_cmd = [sys.executable, os.path.join(here, "prepare_mapclient_plugins.py"), args.plugins]
         if args.pre:
             prepare_plugin_cmd.append("--pre")
@@ -72,7 +74,7 @@ def main():
     os.chdir(f"{MAP_CLIENT_REPO}/res/pyinstaller/")
 
     # Dirty hack for fixing namespace package finding.
-    if args.plugins is not None:
+    if have_plugins:
         os.rename(os.path.join(current_directory, 'mapclientplugins_paths.txt'), os.path.join(os.getcwd(), 'mapclientplugins_paths.txt'))
 
     result = subprocess.run([sys.executable, "create_application.py", variant], env=working_env)
