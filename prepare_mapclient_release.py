@@ -72,7 +72,8 @@ def main():
     os.chdir(f"{MAP_CLIENT_REPO}/res/pyinstaller/")
 
     # Dirty hack for fixing namespace package finding.
-    os.rename(os.path.join(current_directory, 'mapclientplugins_paths.txt'), os.path.join(os.getcwd(), 'mapclientplugins_paths.txt'))
+    if args.plugins is not None and os.path.isfile(args.plugins):
+        os.rename(os.path.join(current_directory, 'mapclientplugins_paths.txt'), os.path.join(os.getcwd(), 'mapclientplugins_paths.txt'))
 
     result = subprocess.run([sys.executable, "create_application.py", variant], env=working_env)
     print(' == result application creation:', result.returncode, flush=True)
