@@ -74,7 +74,8 @@ def main():
     # Dirty hack for fixing namespace package finding.
     print("000000000000000000000")
     print(args.plugins)
-    print(os.path.isfile(args.plugins))
+    if args.plugins is not None:
+        print(os.path.isfile(args.plugins))
     if args.plugins is not None and os.path.isfile(args.plugins):
         os.rename(os.path.join(current_directory, 'mapclientplugins_paths.txt'), os.path.join(os.getcwd(), 'mapclientplugins_paths.txt'))
 
