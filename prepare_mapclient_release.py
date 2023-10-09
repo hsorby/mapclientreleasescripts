@@ -80,6 +80,8 @@ def main():
     result = subprocess.run([sys.executable, "create_application.py", variant], env=working_env)
     print(' == result application creation:', result.returncode, flush=True)
     os.chdir(current_directory)
+    if result.returncode:
+        sys.exit(result.returncode)
 
     # Define a release name from the release tag
     tag = args.mapclient_release
@@ -96,6 +98,9 @@ def main():
         result = subprocess.run(["/bin/bash", "create_installer.sh", release_name, f"-{variant}" if variant else ''], env=working_env)
         print(' == result create installer:', result.returncode, flush=True)
         os.chdir(current_directory)
+
+    if result.returncode:
+        sys.exit(result.returncode)
 
 
 if __name__ == "__main__":
