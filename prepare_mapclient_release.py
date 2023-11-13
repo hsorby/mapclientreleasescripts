@@ -4,6 +4,7 @@ import glob
 import os
 import os.path
 import platform
+import shutil
 import subprocess
 import sys
 
@@ -75,7 +76,7 @@ def main():
 
     # Dirty hack for fixing namespace package finding.
     if have_plugins:
-        os.rename(os.path.join(current_directory, 'mapclientplugins_paths.txt'), os.path.join(os.getcwd(), 'mapclientplugins_paths.txt'))
+        shutil.move(os.path.join(current_directory, 'mapclientplugins_paths.txt'), os.path.join(os.getcwd(), 'mapclientplugins_paths.txt'))
 
     result = subprocess.run([sys.executable, "create_application.py", variant], env=working_env)
     print(' == result application creation:', result.returncode, flush=True)
