@@ -72,7 +72,7 @@ def main():
         return
 
     current_directory = os.getcwd()
-    os.chdir(f"{MAP_CLIENT_REPO}/res/pyinstaller/")
+    os.chdir(os.path.join(local_mapclient, "res", "pyinstaller"))
 
     # Dirty hack for fixing namespace package finding.
     if have_plugins:
@@ -90,12 +90,12 @@ def main():
     release_name = '.'.join(tag_parts[:3])
 
     if platform.system() == "Windows":
-        os.chdir(f"{MAP_CLIENT_REPO}/res/win")
+        os.chdir(os.path.join(local_mapclient, "res", "win"))
         result = subprocess.run([sys.executable, "create_installer.py", release_name, variant], env=working_env)
         print(' == result create installer:', result.returncode, flush=True)
         os.chdir(current_directory)
     elif platform.system() == "Darwin":
-        os.chdir(f"{MAP_CLIENT_REPO}/res/macos")
+        os.chdir(os.path.join(local_mapclient, "res", "macos"))
         result = subprocess.run(["/bin/bash", "create_installer.sh", release_name, f"-{variant}" if variant else ''], env=working_env)
         print(' == result create installer:', result.returncode, flush=True)
         os.chdir(current_directory)
