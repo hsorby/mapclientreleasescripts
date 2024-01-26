@@ -15,7 +15,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="release_preparation")
+    parser = argparse.ArgumentParser(prog="application_preparation")
     parser.add_argument("mapclient_release", help="tag from mapclient codebase")
     parser.add_argument('-p', '--plugins', help='input plugins list file')
     parser.add_argument('-w', '--workflows', help='input workflows list file')
