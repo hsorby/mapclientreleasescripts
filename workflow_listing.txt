@@ -1,4 +1,0 @@
-https://github.com/mapclient-workflows/sparc-data-mapping v0.2.1
-https://github.com/mapclient-workflows/sparc-dataset-curation-helper v0.1.0
-https://github.com/mapclient-workflows/provenance-report v0.1.0
-https://github.com/mapclient-workflows/sparc-generic-scaffold.git v0.1.0
