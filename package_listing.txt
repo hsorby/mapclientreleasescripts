@@ -1,0 +1,12 @@
+https://github.com/cmlibs-python/cmlibs.maths
+https://github.com/cmlibs-python/cmlibs.argon
+https://github.com/cmlibs-python/cmlibs.utils
+https://github.com/cmlibs-python/cmlibs.exporter
+https://github.com/cmlibs-python/cmlibs.widgets
+https://github.com/cmlibs-python/cmlibs.importer
+https://github.com/ABI-Software/scaffoldfitter
+https://github.com/ABI-Software/scaffoldmaker
+https://github.com/ABI-Software/dataembedder
+https://github.com/ABI-Software/sparc-curation-tools
+https://github.com/ABI-Software/mbfxml2ex
+https://github.com/ABI-Software/fieldfitter
