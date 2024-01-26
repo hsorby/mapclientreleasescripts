@@ -17,8 +17,6 @@ here = os.path.abspath(os.path.dirname(__file__))
 def main():
     parser = argparse.ArgumentParser(prog="application_preparation")
     parser.add_argument("mapclient_release", help="tag from mapclient codebase")
-    parser.add_argument('-p', '--plugins', help='input plugins list file')
-    parser.add_argument('-w', '--workflows', help='input workflows list file')
     parser.add_argument('-v', '--variant', help='variant label for this build')
     parser.add_argument('-l', '--local', help='absolute path to locally available MAP Client')
     parser.add_argument("--pre", action='store_true', help="Allow pre-release versions")
@@ -51,10 +49,10 @@ def main():
     result = subprocess.run([pip, "install", "-e", f"{local_mapclient}/src"])
     print(' == result install:', result.returncode, flush=True)
 
-    have_plugins = False
-    if args.plugins is not None and os.path.isfile(args.plugins):
-        have_plugins = True
-        prepare_plugin_cmd = [sys.executable, os.path.join(here, "prepare_mapclient_plugins.py"), args.plugins]
+    plugins_file = os.path.join(here, "plugin_listing.txt")
+    have_plugins = os.path.isfile(plugins_file)
+    if have_plugins:
+        prepare_plugin_cmd = [sys.executable, os.path.join(here, "prepare_mapclient_plugins.py"), plugins_file]
         if args.pre:
             prepare_plugin_cmd.append("--pre")
         result = subprocess.run(prepare_plugin_cmd)
@@ -62,8 +60,9 @@ def main():
 
     working_env = os.environ.copy()
 
+    workflows_file = os.path.join(here, "workflow_listing.txt")
     if args.workflows is not None and os.path.isfile(args.workflows):
-        result = subprocess.run([sys.executable, os.path.join(here, "prepare_mapclient_workflows.py"), args.workflows])
+        result = subprocess.run([sys.executable, os.path.join(here, "prepare_mapclient_workflows.py"), workflows_file])
         print(' == result workflow preparation:', result.returncode, flush=True)
 
         working_env["INTERNAL_WORKFLOWS_ZIP"] = os.path.abspath('internal_workflows.zip')
@@ -81,24 +80,6 @@ def main():
     result = subprocess.run([sys.executable, "create_application.py", variant], env=working_env)
     print(' == result application creation:', result.returncode, flush=True)
     os.chdir(current_directory)
-    if result.returncode:
-        sys.exit(result.returncode)
-
-    # Define a release name from the release tag
-    tag = args.mapclient_release
-    tag_parts = tag[1:].split('.')
-    release_name = '.'.join(tag_parts[:3])
-
-    if platform.system() == "Windows":
-        os.chdir(os.path.join(local_mapclient, "res", "win"))
-        result = subprocess.run([sys.executable, "create_installer.py", release_name, variant], env=working_env)
-        print(' == result create installer:', result.returncode, flush=True)
-        os.chdir(current_directory)
-    elif platform.system() == "Darwin":
-        os.chdir(os.path.join(local_mapclient, "res", "macos"))
-        result = subprocess.run(["/bin/bash", "create_installer.sh", release_name, f"-{variant}" if variant else ''], env=working_env)
-        print(' == result create installer:', result.returncode, flush=True)
-        os.chdir(current_directory)
 
     if result.returncode:
         sys.exit(result.returncode)
