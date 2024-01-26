@@ -61,7 +61,7 @@ def main():
     working_env = os.environ.copy()
 
     workflows_file = os.path.join(here, "workflow_listing.txt")
-    if args.workflows is not None and os.path.isfile(args.workflows):
+    if os.path.isfile(workflows_file):
         result = subprocess.run([sys.executable, os.path.join(here, "prepare_mapclient_workflows.py"), workflows_file])
         print(' == result workflow preparation:', result.returncode, flush=True)
 
