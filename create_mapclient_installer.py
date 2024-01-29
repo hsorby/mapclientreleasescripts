@@ -24,6 +24,7 @@ def main():
     local_mapclient = args.local
 
     variant = args.variant if args.variant is not None else ''
+    variant = '' if variant == 'standard' else variant
 
     current_directory = os.getcwd()
     working_env = os.environ.copy()

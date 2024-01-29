@@ -3,7 +3,6 @@ import argparse
 import glob
 import os
 import os.path
-import platform
 import shutil
 import subprocess
 import sys
@@ -26,6 +25,7 @@ def main():
     local_mapclient = args.local
 
     variant = args.variant if args.variant is not None else ''
+    variant = '' if variant == 'standard' else variant
 
     available_pips = glob.glob(os.path.join(os.path.dirname(sys.executable), 'pip*'))
     if len(available_pips) == 0:
