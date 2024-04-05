@@ -2,7 +2,7 @@ https://github.com/ABI-Software/mapclientplugins.dataembedderstep v0.4.0
 https://github.com/ABI-Software/mapclientplugins.fieldfitterstep v0.4.0
 https://github.com/ABI-Software/mapclientplugins.geometryfitter v0.6.0
 https://github.com/ABI-Software/mapclientplugins.mbfxml2exconverterstep v0.2.0
-https://github.com/ABI-Software/mapclientplugins.scaffoldcreator v0.8.1
+https://github.com/ABI-Software/mapclientplugins.scaffoldcreator v0.9.0
 https://github.com/mapclient-plugins/mapclientplugins.argonsceneexporterstep.git v0.6.0
 https://github.com/mapclient-plugins/mapclientplugins.argonviewerstep.git v0.3.2
 https://github.com/mapclient-plugins/mapclientplugins.autosegmentationstep v0.3.0
@@ -16,10 +16,10 @@ https://github.com/mapclient-plugins/mapclientplugins.generatesds v0.1.1
 https://github.com/mapclient-plugins/mapclientplugins.mapclientprovenancerecordstep v0.3.0
 https://github.com/mapclient-plugins/mapclientplugins.mergezincdatastep v0.2.0
 https://github.com/mapclient-plugins/mapclientplugins.muxerstep v0.2.1
-https://github.com/mapclient-plugins/mapclientplugins.pointcloudpartitionerstep v0.2.0
+https://github.com/mapclient-plugins/mapclientplugins.pointcloudpartitionerstep v0.3.0
 https://github.com/mapclient-plugins/mapclientplugins.propagatezincdatastep v0.2.0
 https://github.com/mapclient-plugins/mapclientplugins.saveargondocumentstep v0.2.0
 https://github.com/mapclient-plugins/mapclientplugins.sdsprotocolstep v0.1.1
 https://github.com/mapclient-plugins/mapclientplugins.sparccurationhelperstep v0.5.1
 https://github.com/mapclient-plugins/mapclientplugins.typeconverterstep v0.2.0
-https://github.com/mapclient-plugins/multiplefilechooser v0.2.0
+https://github.com/mapclient-plugins/multiplefilechooser v0.2.1
