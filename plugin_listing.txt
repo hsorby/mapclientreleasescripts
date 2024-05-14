@@ -20,7 +20,7 @@ https://github.com/mapclient-plugins/mapclientplugins.muxerstep v0.2.1
 https://github.com/mapclient-plugins/mapclientplugins.pointcloudpartitionerstep v0.3.0
 https://github.com/mapclient-plugins/mapclientplugins.propagatezincdatastep v0.2.0
 https://github.com/mapclient-plugins/mapclientplugins.saveargondocumentstep v0.2.0
-https://github.com/mapclient-plugins/mapclientplugins.sdsprotocolstep v0.1.1
+https://github.com/mapclient-plugins/mapclientplugins.sdsprotocolstep v0.1.2
 https://github.com/mapclient-plugins/mapclientplugins.sparccurationhelperstep v0.5.2
 https://github.com/mapclient-plugins/mapclientplugins.typeconverterstep v0.2.1
 https://github.com/mapclient-plugins/multiplefilechooser v0.2.1
