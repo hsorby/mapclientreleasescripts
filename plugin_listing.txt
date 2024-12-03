@@ -2,7 +2,7 @@ https://github.com/ABI-Software/mapclientplugins.dataembedderstep v0.4.0
 https://github.com/ABI-Software/mapclientplugins.fieldfitterstep v0.4.0
 https://github.com/ABI-Software/mapclientplugins.geometryfitter v0.7.1
 https://github.com/ABI-Software/mapclientplugins.mbfxml2exconverterstep v0.2.0
-https://github.com/ABI-Software/mapclientplugins.scaffoldcreator v0.9.2
+https://github.com/ABI-Software/mapclientplugins.scaffoldcreator v0.10.0
 https://github.com/mapclient-plugins/mapclientplugins.applyfittedcoordinatesstep v0.1.0
 https://github.com/mapclient-plugins/mapclientplugins.argonsceneexporterstep v0.7.0
 https://github.com/mapclient-plugins/mapclientplugins.argonviewerstep v0.4.7
