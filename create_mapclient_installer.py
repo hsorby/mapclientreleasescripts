@@ -45,10 +45,11 @@ def main():
         print(' == result create installer:', result.returncode, flush=True)
         retries = [1, 3, 5]
         retry_index = 0
-        while result.returncode:
+        while result.returncode and retry_index < len(retries):
             time.sleep(retries[retry_index])
             result = subprocess.run(["/bin/bash", "create_installer.sh", release_name, f"-{variant}" if variant else ''], env=working_env)
             print(' == result create installer:', result.returncode, flush=True)
+            retry_index += 1
 
         os.chdir(current_directory)
 
