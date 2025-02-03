@@ -10,3 +10,5 @@ A variant branch should not edit the python scripts, each variant branch should 
 * package_listing.txt
 * plugin_listing.txt
 * workflow_listing.txt
+
+To make a request for new variant of release use this issue template: `new release variant request <https://github.com/hsorby/mapclientreleasescripts/issues/new?assignees=&labels=&projects=&template=new-variant-request.md&title=%5BNew+variant%5D+>`_
