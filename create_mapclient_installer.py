@@ -46,6 +46,7 @@ def main():
         retries = [1, 3, 5]
         retry_index = 0
         while result.returncode and retry_index < len(retries):
+            subprocess.run(["/usr/bin/sudo", "pkill", "-9", "XProtect"], env=working_env)
             time.sleep(retries[retry_index])
             result = subprocess.run(["/bin/bash", "create_installer.sh", release_name, f"-{variant}" if variant else ''], env=working_env)
             print(' == result create installer:', result.returncode, flush=True)
