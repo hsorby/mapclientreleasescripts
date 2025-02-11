@@ -43,7 +43,7 @@ def main():
         os.chdir(os.path.join(local_mapclient, "res", "macos"))
         result = subprocess.run(["/bin/bash", "create_installer.sh", release_name, f"-{variant}" if variant else ''], env=working_env)
         print(' == result create installer:', result.returncode, flush=True)
-        retries = [1, 3, 5]
+        retries = [1, 3, 5, 9, 13, 17, 21, 25, 29, 33]
         retry_index = 0
         while result.returncode and retry_index < len(retries):
             subprocess.run(["/usr/bin/sudo", "pkill", "-9", "XProtect"], env=working_env)
