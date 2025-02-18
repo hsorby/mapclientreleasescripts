@@ -22,7 +22,7 @@ https://github.com/mapclient-plugins/mapclientplugins.mapclientprovenancerecords
 https://github.com/mapclient-plugins/mapclientplugins.mergezincdatastep v0.2.0
 https://github.com/mapclient-plugins/mapclientplugins.meshprojectionstep v0.1.0
 https://github.com/mapclient-plugins/mapclientplugins.meshrotationstep v0.1.0
-https://github.com/mapclient-plugins/mapclientplugins.muxerstep v0.2.1
+https://github.com/mapclient-plugins/mapclientplugins.muxerstep v0.2.2
 https://github.com/mapclient-plugins/mapclientplugins.pointcloudpartitionerstep v0.4.2
 https://github.com/mapclient-plugins/mapclientplugins.propagatezincdatastep v0.2.1
 https://github.com/mapclient-plugins/mapclientplugins.retrieveportaldatastep v0.1.3
