@@ -57,7 +57,12 @@ def main():
                 dir_name = re.sub(".git$", "", dir_name)
 
             plugin_paths.append(os.path.abspath(dir_name) + "\n")
-            pip_install_cmd = [pip, "install", "-e", dir_name]
+            requirements_file = os.path.join(os.path.abspath(dir_name), 'requirements.txt')
+            if os.path.isfile(requirements_file):
+                pip_install_cmd = [pip, "install", "-r", requirements_file]
+            else:
+                pip_install_cmd = [pip, "install", "-e", dir_name]
+
             if args.pre is not None:
                 pip_install_cmd.append("--pre")
 
