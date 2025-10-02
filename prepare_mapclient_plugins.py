@@ -58,7 +58,7 @@ def main():
 
             plugin_paths.append(os.path.abspath(dir_name) + "\n")
             requirements_file = os.path.join(os.path.abspath(dir_name), 'requirements.txt')
-            if os.path.isfile(requirements_file):
+            if os.path.isfile(requirements_file) and os.stat(requirements_file).st_size > 0:
                 pip_install_cmd = [pip, "install", "-r", requirements_file]
             else:
                 pip_install_cmd = [pip, "install", "-e", dir_name]
