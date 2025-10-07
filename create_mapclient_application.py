@@ -58,7 +58,9 @@ def main():
     plugins_file = os.path.join(here, "plugin_listing.txt")
     have_plugins = os.path.isfile(plugins_file)
     if have_plugins:
-        prepare_plugin_cmd = [sys.executable, os.path.join(here, "prepare_mapclient_plugins.py"), '-r', args.repos, plugins_file]
+        prepare_plugin_cmd = [sys.executable, os.path.join(here, "prepare_mapclient_plugins.py"), plugins_file]
+        if args.repos:
+            prepare_plugin_cmd += ['-r', args.repos]
         if args.pre:
             prepare_plugin_cmd.append("--pre")
         result = subprocess.run(prepare_plugin_cmd)
@@ -68,7 +70,11 @@ def main():
 
     workflows_file = os.path.join(here, "workflow_listing.txt")
     if os.path.isfile(workflows_file):
-        result = subprocess.run([sys.executable, os.path.join(here, "prepare_mapclient_workflows.py"), '-w', args.workflow_dir, workflows_file])
+        prepare_workflow_cmd = [sys.executable, os.path.join(here, "prepare_mapclient_workflows.py"), workflows_file]
+        if args.workflow_dir:
+            prepare_workflow_cmd += ['-w', args.workflow_dir]
+
+        result = subprocess.run(prepare_workflow_cmd)
         print(' == result workflow preparation:', result.returncode, flush=True)
 
         working_env["INTERNAL_WORKFLOWS_ZIP"] = os.path.abspath('internal_workflows.zip')
