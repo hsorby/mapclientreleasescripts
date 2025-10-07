@@ -1,11 +1,41 @@
 #!/usr/bin/env python
 import argparse
 import glob
+import json
 import os.path
 import re
 import site
 import subprocess
 import sys
+
+SKELETON_PYPROJECT_TOML = """
+# pyproject.toml
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "{project_name}"
+# Add "dependencies" to the list of dynamic fields.
+dynamic = ["version", "dependencies"]
+
+[tool.setuptools.packages.find]
+namespaces = true
+include = ["mapclientplugins.*"]
+
+[tool.setuptools.dynamic]
+version = {{attr = "{project_name}.__version__"}}
+# Tell setuptools to read dependencies from the specified file.
+dependencies = {{file = ["requirements.txt"]}}
+"""
+
+
+def _write_basic_pyproject_toml(requirements_file):
+    base_dir = os.path.dirname(requirements_file)
+    pyproject_toml = os.path.join(base_dir, "pyproject.toml")
+    with open(pyproject_toml, "w") as fh:
+        fh.write(SKELETON_PYPROJECT_TOML.format(project_name=os.path.basename(base_dir)))
 
 
 def main():
@@ -28,7 +58,7 @@ def main():
 
     # site_packages_dir = [s for s in site.getsitepackages() if s.find('site-packages') >= 0][0]
     # print(' == site packages dir:', site_packages_dir)
-    plugin_paths = []
+    plugin_paths = {}
     for plugin_info in plugins:
         parts = plugin_info.split()
         if len(parts) > 0:
@@ -56,11 +86,13 @@ def main():
             if dir_name.endswith(".git"):
                 dir_name = re.sub(".git$", "", dir_name)
 
-            plugin_paths.append(os.path.abspath(dir_name) + "\n")
+            abs_dir_name = os.path.abspath(dir_name)
             requirements_file = os.path.join(os.path.abspath(dir_name), 'requirements.txt')
             if os.path.isfile(requirements_file) and os.stat(requirements_file).st_size > 0:
+                plugin_paths[abs_dir_name] = 'requirements_file'
                 pip_install_cmd = [pip, "install", "-r", requirements_file]
             else:
+                plugin_paths[abs_dir_name] = 'installed'
                 pip_install_cmd = [pip, "install", "-e", dir_name]
 
             if args.pre is not None:
@@ -71,13 +103,14 @@ def main():
             result.check_returncode()
 
     current_dir = os.getcwd()
-    with open(os.path.join(current_dir, 'mapclientplugins_paths.txt'), 'w') as f:
-        f.writelines(plugin_paths)
+    plugin_paths_file = os.path.join(current_dir, 'mapclientplugins_paths.json')
+    with open(plugin_paths_file, 'w') as fh:
+        json.dump(plugin_paths, fh)
 
     print(' == mapclientplugins path file:')
 
-    with open(os.path.join(current_dir, 'mapclientplugins_paths.txt')) as f:
-        print(f.read())
+    with open(plugin_paths_file) as fh:
+        print(fh.read())
 
 
 if __name__ == "__main__":
