@@ -13,13 +13,19 @@ MAP_CLIENT_REPO = "mapclient"
 here = os.path.abspath(os.path.dirname(__file__))
 
 
-def main():
+def _parse_args():
     parser = argparse.ArgumentParser(prog="application_preparation")
     parser.add_argument("mapclient_release", help="tag from mapclient codebase")
     parser.add_argument('-v', '--variant', help='variant label for this build')
     parser.add_argument('-l', '--local', help='absolute path to locally available MAP Client')
+    parser.add_argument('-r', '--repos', help='absolute path to where repositories should be cloned')
+    parser.add_argument('-w', '--workflow-dir', default='workflows', help='absolute path to where workflows should be cloned')
     parser.add_argument("--pre", action='store_true', help="Allow pre-release versions")
-    args = parser.parse_args()
+    return parser.parse_args()
+
+
+def main():
+    args = _parse_args()
 
     cut_short = False
     local_mapclient = args.local
@@ -52,7 +58,7 @@ def main():
     plugins_file = os.path.join(here, "plugin_listing.txt")
     have_plugins = os.path.isfile(plugins_file)
     if have_plugins:
-        prepare_plugin_cmd = [sys.executable, os.path.join(here, "prepare_mapclient_plugins.py"), plugins_file]
+        prepare_plugin_cmd = [sys.executable, os.path.join(here, "prepare_mapclient_plugins.py"), '-r', args.repos, plugins_file]
         if args.pre:
             prepare_plugin_cmd.append("--pre")
         result = subprocess.run(prepare_plugin_cmd)
@@ -62,7 +68,7 @@ def main():
 
     workflows_file = os.path.join(here, "workflow_listing.txt")
     if os.path.isfile(workflows_file):
-        result = subprocess.run([sys.executable, os.path.join(here, "prepare_mapclient_workflows.py"), workflows_file])
+        result = subprocess.run([sys.executable, os.path.join(here, "prepare_mapclient_workflows.py"), '-w', args.workflow_dir, workflows_file])
         print(' == result workflow preparation:', result.returncode, flush=True)
 
         working_env["INTERNAL_WORKFLOWS_ZIP"] = os.path.abspath('internal_workflows.zip')

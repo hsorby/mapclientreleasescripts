@@ -7,10 +7,15 @@ import subprocess
 import sys
 
 
-def main():
+def _parse_args():
     parser = argparse.ArgumentParser(prog="workflow_preparation")
+    parser.add_argument('-w', '--workflow-dir', default='workflows', help='absolute path to where workflows should be cloned')
     parser.add_argument("workflow_listing", help="A file of workflows to prepare")
-    args = parser.parse_args()
+    return parser.parse_args()
+
+
+def main():
+    args = _parse_args()
 
     if not os.path.exists(args.workflow_listing):
         sys.exit(1)
@@ -19,10 +24,12 @@ def main():
         workflows = f.readlines()
 
     current_dir = os.getcwd()
-    if not os.path.exists('workflows'):
-        os.mkdir('workflows')
+    workflow_dir = args.workflow_dir
+    if not os.path.exists(workflow_dir):
+        os.mkdir(workflow_dir)
 
-    os.chdir('workflows')
+    os.chdir(workflow_dir)
+
     default_workflow_set = False
     for workflow_info in workflows:
         parts = workflow_info.split()
@@ -46,7 +53,7 @@ def main():
 
     os.chdir(current_dir)
     if len(workflows):
-        shutil.make_archive('internal_workflows', 'zip', './workflows')
+        shutil.make_archive('internal_workflows', 'zip', workflow_dir)
 
 
 if __name__ == "__main__":
