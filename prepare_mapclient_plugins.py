@@ -65,13 +65,13 @@ def main():
             requirements_file = os.path.join(os.path.abspath(dir_name), 'requirements.txt')
             if os.path.isfile(requirements_file) and os.stat(requirements_file).st_size > 0:
                 plugin_paths[cloned_dir] = 'requirements_file'
-                pip_install_cmd = [pip, "install", "-r", requirements_file]
+                pip_install_cmd = [pip, 'install', '-r', requirements_file]
             else:
                 plugin_paths[cloned_dir] = 'installed'
-                pip_install_cmd = [pip, "install", "-e", dir_name]
+                pip_install_cmd = [pip, 'install', '-e', dir_name]
 
             if args.pre is not None:
-                pip_install_cmd.append("--pre")
+                pip_install_cmd.append('--pre')
 
             result = subprocess.run(pip_install_cmd)
             print(' == result install:', result.returncode, flush=True)
