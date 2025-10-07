@@ -8,35 +8,6 @@ import site
 import subprocess
 import sys
 
-SKELETON_PYPROJECT_TOML = """
-# pyproject.toml
-
-[build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
-
-[project]
-name = "{project_name}"
-# Add "dependencies" to the list of dynamic fields.
-dynamic = ["version", "dependencies"]
-
-[tool.setuptools.packages.find]
-namespaces = true
-include = ["mapclientplugins.*"]
-
-[tool.setuptools.dynamic]
-version = {{attr = "{project_name}.__version__"}}
-# Tell setuptools to read dependencies from the specified file.
-dependencies = {{file = ["requirements.txt"]}}
-"""
-
-
-def _write_basic_pyproject_toml(requirements_file):
-    base_dir = os.path.dirname(requirements_file)
-    pyproject_toml = os.path.join(base_dir, "pyproject.toml")
-    with open(pyproject_toml, "w") as fh:
-        fh.write(SKELETON_PYPROJECT_TOML.format(project_name=os.path.basename(base_dir)))
-
 
 def main():
     parser = argparse.ArgumentParser(prog="plugin_preparation")
