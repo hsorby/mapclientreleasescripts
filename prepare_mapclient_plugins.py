@@ -62,7 +62,7 @@ def main():
                 else:
                     sys.exit(e.returncode)
 
-            requirements_file = os.path.join(os.path.abspath(cloned_dir), 'requirements.txt')
+            requirements_file = os.path.join(cloned_dir, 'requirements.txt')
             if os.path.isfile(requirements_file) and os.stat(requirements_file).st_size > 0:
                 plugin_paths[cloned_dir] = 'requirements_file'
                 pip_install_cmd = [pip, 'install', '-r', requirements_file]
