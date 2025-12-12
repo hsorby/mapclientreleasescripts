@@ -29,7 +29,7 @@ https://github.com/mapclient-plugins/mapclientplugins.propagatezincdatastep v0.2
 https://github.com/mapclient-plugins/mapclientplugins.retrieveportaldatastep v0.1.5
 https://github.com/mapclient-plugins/mapclientplugins.saveargondocumentstep v0.2.0
 https://github.com/mapclient-plugins/mapclientplugins.scaffoldgenerator v0.1.1
-https://github.com/mapclient-plugins/mapclientplugins.sdsprotocolstep v0.1.3
+https://github.com/mapclient-plugins/mapclientplugins.sdsprotocolstep v0.1.4
 https://github.com/mapclient-plugins/mapclientplugins.sparccurationhelperstep v0.5.5
 https://github.com/mapclient-plugins/mapclientplugins.typeconverterstep v0.2.4
 https://github.com/mapclient-plugins/multiplefilechooser v0.2.1
