@@ -33,6 +33,7 @@ def main():
     current_dir = os.getcwd()
 
     repos_dir = os.path.abspath(args.repos)
+    print("repos_dir: ", repos_dir)
     plugin_paths = {}
     for plugin_info in plugins:
         parts = plugin_info.split()
