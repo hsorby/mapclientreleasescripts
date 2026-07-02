@@ -31,6 +31,8 @@ def main():
         plugins = f.readlines()
 
     current_dir = os.getcwd()
+    print('99999999999999999')
+    print(current_dir)
     repos_dir = os.path.abspath(args.repos)
     plugin_paths = {}
     for plugin_info in plugins:
@@ -82,6 +84,7 @@ def main():
         json.dump(plugin_paths, fh)
 
     print(' == mapclientplugins path file:')
+    print(plugin_paths_file)
 
     with open(plugin_paths_file) as fh:
         print(fh.read())
