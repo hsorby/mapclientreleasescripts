@@ -62,6 +62,10 @@ def main():
                 else:
                     sys.exit(e.returncode)
 
+            namespace_init_file = os.path.join(cloned_dir, 'mapclientplugins', '__init__.py')
+            if os.path.exists(namespace_init_file):
+                os.remove(namespace_init_file)
+
             requirements_file = os.path.join(cloned_dir, 'requirements.txt')
             if os.path.isfile(requirements_file) and os.stat(requirements_file).st_size > 0:
                 plugin_paths[cloned_dir] = 'requirements_file'
