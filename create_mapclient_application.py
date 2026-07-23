@@ -43,7 +43,7 @@ def main():
     print(' == result install:', result.returncode, flush=True)
 
     # Always install numpy, and scipy
-    result = subprocess.run([pip, "install", "numpy!=2.0.1,!=2.0.0", "scipy"])
+    result = subprocess.run([pip, "install", "numpy", "scipy"])
     print(' == result install extras:', result.returncode, flush=True)
 
     if local_mapclient is None:
