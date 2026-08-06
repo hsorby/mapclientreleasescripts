@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 import argparse
 import glob
+import json
 import os
 import os.path
 import shutil
 import subprocess
 import sys
 
+from mapclient.core.provenance import reproducibility_info
 
 MAP_CLIENT_REPO = "mapclient"
 
@@ -84,6 +86,11 @@ def main():
 
     current_directory = os.getcwd()
     os.chdir(os.path.join(local_mapclient, "res", "pyinstaller"))
+
+    info = reproducibility_info()
+    provenance_filename = os.path.join(os.getcwd(), "generated_provenance.json")
+    with open(provenance_filename, 'w') as f:
+        json.dump(info, f, indent=2)
 
     # Dirty hack for fixing namespace package finding.
     if have_plugins:
