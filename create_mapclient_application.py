@@ -90,7 +90,7 @@ def main():
     info = reproducibility_info()
     provenance_filename = os.path.join(os.getcwd(), "generated_provenance.json")
     with open(provenance_filename, 'w') as f:
-        json.dump(info, f, indent=2)
+        json.dump(info, f, default=lambda o: o.__dict__, sort_keys=True, indent=2)
 
     # Dirty hack for fixing namespace package finding.
     if have_plugins:
