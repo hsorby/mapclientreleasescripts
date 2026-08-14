@@ -13,6 +13,7 @@ https://github.com/mapclient-plugins/mapclientplugins.convertcoordinatefieldstep
 https://github.com/mapclient-plugins/mapclientplugins.convertdatatozincstep v0.3.1
 https://github.com/mapclient-plugins/mapclientplugins.dictserializerstep v0.2.1
 https://github.com/mapclient-plugins/mapclientplugins.directorychooserstep v0.2.3
+https://github.com/mapclient-plugins/mapclientplugins.directorycopystep v0.1.0
 https://github.com/mapclient-plugins/mapclientplugins.filechooserstep v0.3.1
 https://github.com/mapclient-plugins/mapclientplugins.filelocationsinkstep v0.5.1
 https://github.com/mapclient-plugins/mapclientplugins.generateflatmapsourcesstep v0.2.1
